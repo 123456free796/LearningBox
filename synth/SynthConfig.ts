@@ -63,6 +63,7 @@ export const enum InstrumentType {
 	pwm,
 	pickedString,
 	supersaw,
+	pop, 
 	length,
 }
 
@@ -278,7 +279,7 @@ export class Config {
 		{name: "freehand",      stepsPerBeat:24, ticksPerArpeggio: 3, arpeggioPatterns: [[0], [0, 1],       [0, 1, 2, 1]], roundUpThresholds: null},
 	]);
 	
-	public static readonly instrumentTypeNames: ReadonlyArray<string> = ["chip", "FM", "noise", "spectrum", "drumset", "harmonics", "PWM", "Picked String", "supersaw"]; // See InstrumentType enum above.
+	public static readonly instrumentTypeNames: ReadonlyArray<string> = ["chip", "FM", "noise", "spectrum", "drumset", "harmonics", "PWM", "Picked String", "supersaw", "Pop"]; // See InstrumentType enum above.
 	public static readonly instrumentTypeHasSpecialInterval: ReadonlyArray<boolean> = [true, true, false, false, false, true, false, false, false];
 	public static readonly chipBaseExpression:      number = 0.03375; // Doubled by unison feature, but affected by expression adjustments per unison setting and wave shape.
 	public static readonly fmBaseExpression:        number = 0.03;
@@ -289,6 +290,7 @@ export class Config {
 	public static readonly pwmBaseExpression:       number = 0.04725; // It's actually closer to half of this, the synthesized pulse amplitude range is only .5 to -.5, but also note that the fundamental sine partial amplitude of a square wave is 4/π times the measured square wave amplitude.
 	public static readonly supersawBaseExpression:  number = 0.061425; // It's actually closer to half of this, the synthesized sawtooth amplitude range is only .5 to -.5.
 	public static readonly pickedStringBaseExpression: number = 0.025; // Same as harmonics.
+	public static readonly PopBaseExpression: number = 0.05575;
 	public static readonly distortionBaseVolume:    number = 0.011; // Distortion is not affected by pitchDamping, which otherwise approximately halves expression for notes around the middle of the range.
 	public static readonly bitcrusherBaseVolume:    number = 0.010; // Also not affected by pitchDamping, used when bit crushing is maxed out (aka "1-bit" output).
 	
@@ -353,6 +355,7 @@ export class Config {
 		{name: "octave",     voices: 2, spread: 6.0,  offset: 6.0, expression: 0.8, sign: 1.0},
 		{name: "bowed",      voices: 2, spread: 0.02, offset: 0.0, expression: 1.0, sign:-1.0},
 		{name: "piano",      voices: 2, spread: 0.01, offset: 0.0, expression: 1.0, sign: 0.7},
+		{name: "this sounds so bad", voices: 2, spread: -5, offset: -0.5, volume: 1.0, sign: -5},
 	]);
 	public static readonly effectNames: ReadonlyArray<string> = ["reverb", "chorus", "panning", "distortion", "bitcrusher", "note filter", "echo", "pitch shift", "detune", "vibrato", "transition type", "chord type"];
 	public static readonly effectOrder: ReadonlyArray<EffectType> = [EffectType.transition, EffectType.chord, EffectType.pitchShift, EffectType.detune, EffectType.vibrato, EffectType.noteFilter, EffectType.distortion, EffectType.bitcrusher, EffectType.panning, EffectType.chorus, EffectType.echo, EffectType.reverb];
@@ -514,7 +517,7 @@ export class Config {
 	public static readonly bitcrusherOctaveStep: number = 0.5;
 	public static readonly bitcrusherQuantizationRange: number = 8;
 	
-	public static readonly maxEnvelopeCount: number = 12;
+	public static readonly maxEnvelopeCount: number = 24;
 	public static readonly defaultAutomationRange: number = 13;
 	public static readonly instrumentAutomationTargets: DictionaryArray<AutomationTarget> = toNameMap([
 		{name: "none",                   computeIndex:                           null,                   displayName: "none",             /*perNote: false,*/ interleave: false, isFilter: false, /*range: 0,                              */    maxCount: 1,    effect: null,                    compatibleInstruments: null},
