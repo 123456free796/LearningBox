@@ -163,7 +163,7 @@ const enum SongTagCode {
 //	                    = CharCode.Y,
 //	                    = CharCode.Z,
 //	                    = CharCode.NUM_0,
-//	                    = CharCode.NUM_1,
+	pop                 = CharCode.NUM_1,
 //	                    = CharCode.NUM_2,
 //	                    = CharCode.NUM_3,
 //	                    = CharCode.NUM_4,
@@ -1123,6 +1123,15 @@ export class Instrument {
 				this.supersawShape = 0;
 				this.pulseWidth = Config.pulseWidthRange - 1;
 				break;
+			case InstrumentType.pop:
+				this.chord = Config.chords.dictionary["apeggio"].index;
+				this.pulseWidth = Config.pulseWidthRange - 1.2;;
+				break;
+				} else if (this.type == InstrumentType.myInstrument) {
+			// Nothing to save yet.
+			      if (this.type == InstrumentType.myInstrument) {
+			// Nothing to load yet.
+		}
 			default:
 				throw new Error("Unrecognized instrument type: " + type);
 		}
